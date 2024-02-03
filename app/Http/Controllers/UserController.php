@@ -14,7 +14,9 @@ class UserController extends Controller
         }else{
             $data = User::paginate($request->get('perPage'));
         }
-
+        if ($request->get('search')){
+            $data = User::where('name', 'like', $request->get('search').'%')->paginate(10);
+        }
         return response()->json($data);
     }
 }
