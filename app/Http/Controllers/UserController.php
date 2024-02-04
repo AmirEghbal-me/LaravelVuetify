@@ -19,4 +19,26 @@ class UserController extends Controller
         }
         return response()->json($data);
     }
+
+    public function editItem(Request $request)
+    {
+        $user = User::find($request->post('id'));
+        $user->name = $request->post('name');
+        $user->email = $request->post('email');
+        $user->save();
+    }
+
+    public function deleteItem(Request $request)
+    {
+        $user = User::find($request->post('id'));
+        $user->delete();
+    }
+
+    public function addItem(Request $request){
+        $user = new User();
+        $user->name = $request->post('name');
+        $user->email = $request->post('email');
+        $user->password = 123456;
+        $user->save();
+    }
 }

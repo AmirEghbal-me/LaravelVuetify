@@ -6,6 +6,9 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'index'])->name('users.index');
+Route::post('/users/edit', [UserController::class, 'editItem'])->name('users.edit');
+Route::post('/users/delete', [UserController::class, 'deleteItem'])->name('users.delete');
+Route::post('/users/add', [UserController::class, 'addItem'])->name('users.add');
 /*
 |--------------------------------------------------------------------------
 | API Routes

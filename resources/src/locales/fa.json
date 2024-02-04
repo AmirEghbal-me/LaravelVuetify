@@ -83,5 +83,7 @@
   "send_type" : "انتخاب روش ارسال",
   "register" : "ثبت",
   "items-per-page-text" : "تعداد در صفحه:",
-  "next" : "بعدی"
+  "next" : "بعدی",
+  "formDialog" : "دیالوگ فرم",
+    "jsPanelDatatable": "JsPanel"
 }

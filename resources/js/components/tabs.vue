@@ -9,6 +9,8 @@ import ServerSideDataTable from './ServerSideDataTable.vue'
 import Carousel from './Carousel.vue'
 import Steppers from './Steppers.vue'
 import LocaleSelect from "./LocaleSelect.vue";
+import FormDialog from "./FormDialog.vue";
+import JsPanelDatatable from "./JsPanelDatatable.vue";
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 </script>
@@ -23,22 +25,24 @@ const { t } = useI18n()
         v-model="tab"
         bg-color="primary"
     >
-      <v-tab value="one">{{ $t("bottom") }}</v-tab>
+<!--      <v-tab value="one">{{ $t("bottom") }}</v-tab>-->
       <v-tab value="two">{{ $t("input_validation") }}</v-tab>
       <v-tab value="three">{{ $t("form_validation") }}</v-tab>
       <v-tab value="next1">{{ $t("confirm_code") }}</v-tab>
-      <v-tab value="next2">{{ $t("Selects") }}</v-tab>
+<!--      <v-tab value="next2">{{ $t("Selects") }}</v-tab>-->
       <v-tab value="next3">{{ $t("datatable") }}</v-tab>
       <v-tab value="next4">{{ $t("server_datatable") }}</v-tab>
       <v-tab value="next5">{{ $t("slider") }}</v-tab>
       <v-tab value="next6">{{ $t("level") }}</v-tab>
+<!--      <v-tab value="next7">{{ $t("formDialog") }}</v-tab>-->
+      <v-tab value="next8">{{ $t("jsPanelDatatable") }}</v-tab>
     </v-tabs>
 
     <v-card-text>
       <v-window v-model="tab">
-        <v-window-item value="one">
+<!--        <v-window-item value="one">
           <Bottom/><br>
-        </v-window-item>
+        </v-window-item>-->
 
         <v-window-item value="two">
           <FileInputValidation/>
@@ -52,9 +56,9 @@ const { t } = useI18n()
           <OTP_Input/><br>
         </v-window-item>
 
-        <v-window-item value="next2">
+<!--        <v-window-item value="next2">
           <Selects/><br>
-        </v-window-item>
+        </v-window-item>-->
 
         <v-window-item value="next3">
           <DataTable/><br>
@@ -72,6 +76,13 @@ const { t } = useI18n()
           <Steppers/><br>
         </v-window-item>
 
+<!--          <v-window-item value="next7">
+              <FormDialog/><br>
+          </v-window-item>-->
+
+          <v-window-item value="next8">
+              <JsPanelDatatable/><br>
+          </v-window-item>
       </v-window>
     </v-card-text>
   </v-card>

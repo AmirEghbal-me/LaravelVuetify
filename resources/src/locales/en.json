@@ -82,5 +82,7 @@
   "send_type" : "Choose send type",
   "register" : "Register",
   "items-per-page-text" : "Item per page:",
-  "next" : "Next"
+  "next" : "Next",
+    "formDialog" : "Form Dialog",
+    "jsPanelDatatable": "JsPanel"
 }
