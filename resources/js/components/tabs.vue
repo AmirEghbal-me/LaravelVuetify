@@ -10,7 +10,10 @@ import Carousel from './Carousel.vue'
 import Steppers from './Steppers.vue'
 import LocaleSelect from "./LocaleSelect.vue";
 import FormDialog from "./FormDialog.vue";
+import jsPanelComponent from "./jsPanel.vue";
+import customPanel from "./customPanel.vue";
 import { useI18n } from 'vue-i18n'
+import CustomPanel from "./customPanel.vue";
 const { t } = useI18n()
 </script>
 <template>
@@ -35,6 +38,8 @@ const { t } = useI18n()
       <v-tab value="next6">{{ $t("level") }}</v-tab>
 <!--      <v-tab value="next7">{{ $t("formDialog") }}</v-tab>-->
 <!--      <v-tab value="next8">{{ $t("jsPanelDatatable") }}</v-tab>-->
+<!--      <v-tab value="next7">{{ $t("jsPanelDatatable") }}</v-tab>-->
+      <v-tab value="next8">customPanel</v-tab>
     </v-tabs>
 
     <v-card-text>
@@ -78,7 +83,12 @@ const { t } = useI18n()
 <!--          <v-window-item value="next7">
               <FormDialog/><br>
           </v-window-item>-->
-
+          <v-window-item value="next7">
+              <jsPanelComponent/><br>
+          </v-window-item>
+          <v-window-item value="next8">
+              <CustomPanel/><br>
+          </v-window-item>
       </v-window>
     </v-card-text>
   </v-card>

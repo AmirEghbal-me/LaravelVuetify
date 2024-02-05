@@ -49,71 +49,76 @@
 
 
                   </template>
-                  <v-card>
-                      <v-card-title>
-                          <v-icon color="red" @click="this.dialog = false" size="large">mdi-close</v-icon>
-                          <v-icon size="25" @click="resizeWindow">mdi-checkbox-blank-outline</v-icon>
+                  <div ref="draggableContainer" id="draggable-container">
+                      <div id="draggable-header" @mousedown="dragMouseDown">
+                          <v-card>
+                              <v-card-title>
+                                  <v-icon color="red" @click="this.dialog = false" size="large">mdi-close</v-icon>
+                                  <v-icon size="25" @click="resizeWindow">mdi-checkbox-blank-outline</v-icon>
 
 
 
-                          <v-icon size="25"
-                                  @click="minimizeWindow"
-                                  :class="{ maximizeClass: maximize }"
-                          >mdi-minus
-                          </v-icon>
-                          <v-icon
-                              @click="minimizeWindow"
-                              :class="{ minimizeClass: minimize }"
-                              style="display: none"
-                          >
-                              mdi-chevron-up
-                          </v-icon>
-                      </v-card-title>
-                      <v-card-text>
-                          <v-container>
-                              <v-row>
-                                  <v-col
-                                      cols="12"
-                                      sm="12"
-                                      md="12"
+                                  <v-icon size="25"
+                                          @click="minimizeWindow"
+                                          :class="{ maximizeClass: maximize }"
+                                  >mdi-minus
+                                  </v-icon>
+                                  <v-icon
+                                      @click="minimizeWindow"
+                                      :class="{ minimizeClass: minimize }"
+                                      style="display: none"
                                   >
-                                      <v-text-field
-                                          v-model="editedItem.name"
-                                          label='نام'
-                                      ></v-text-field>
-                                  </v-col>
-                                  <v-col
-                                      cols="12"
-                                      sm="12"
-                                      md="12"
-                                  >
-                                      <v-text-field
-                                          v-model="editedItem.email"
-                                          label='ایمیل'
-                                      ></v-text-field>
-                                  </v-col>
-                              </v-row>
-                          </v-container>
-                      </v-card-text>
+                                      mdi-chevron-up
+                                  </v-icon>
+                              </v-card-title>
+                              <v-card-text>
+                                  <v-container>
+                                      <v-row>
+                                          <v-col
+                                              cols="12"
+                                              sm="12"
+                                              md="12"
+                                          >
+                                              <v-text-field
+                                                  v-model="editedItem.name"
+                                                  label='نام'
+                                              ></v-text-field>
+                                          </v-col>
+                                          <v-col
+                                              cols="12"
+                                              sm="12"
+                                              md="12"
+                                          >
+                                              <v-text-field
+                                                  v-model="editedItem.email"
+                                                  label='ایمیل'
+                                              ></v-text-field>
+                                          </v-col>
+                                      </v-row>
+                                  </v-container>
+                              </v-card-text>
 
-                      <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                              color="blue-darken-1"
-                              variant="text"
-                              @click="close"
-                          >
-                              {{ $t("cancel") }}
-                          </v-btn>
-                          <v-btn
-                              color="blue-darken-1"
-                              variant="text"
-                              @click="save"
-                          >
-                              {{ $t("save") }}
-                          </v-btn>
-                      </v-card-actions>
-                  </v-card>
+                              <v-card-actions>
+                                  <v-spacer></v-spacer>
+                                  <v-btn
+                                      color="blue-darken-1"
+                                      variant="text"
+                                      @click="close"
+                                  >
+                                      {{ $t("cancel") }}
+                                  </v-btn>
+                                  <v-btn
+                                      color="blue-darken-1"
+                                      variant="text"
+                                      @click="save"
+                                  >
+                                      {{ $t("save") }}
+                                  </v-btn>
+                              </v-card-actions>
+                          </v-card>
+                      </div>
+                  </div>
+
               </v-dialog>
               <v-dialog v-model="dialogDelete" max-width="500px">
                   <v-card>
@@ -158,6 +163,12 @@
 import axios from 'axios';
 export default {
   data: () => ({
+      positions: {
+          clientX: undefined,
+          clientY: undefined,
+          movementX: 0,
+          movementY: 0
+      },
       width: 1024,
       height: 800,
       resize: false,
@@ -313,6 +324,28 @@ export default {
           }
 
       },
+      dragMouseDown: function (event) {
+          event.preventDefault()
+          // get the mouse cursor position at startup:
+          this.positions.clientX = event.clientX
+          this.positions.clientY = event.clientY
+          document.onmousemove = this.elementDrag
+          document.onmouseup = this.closeDragElement
+      },
+      elementDrag: function (event) {
+          event.preventDefault()
+          this.positions.movementX = this.positions.clientX - event.clientX
+          this.positions.movementY = this.positions.clientY - event.clientY
+          this.positions.clientX = event.clientX
+          this.positions.clientY = event.clientY
+          // set the element's new position:
+          this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
+          this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
+      },
+      closeDragElement () {
+          document.onmouseup = null
+          document.onmousemove = null
+      }
   },
 }
 </script>
@@ -329,5 +362,21 @@ export default {
     position: absolute;
     bottom: 0;
     left: 0;
+}
+#draggable-container {
+    position: absolute;
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+}
+#draggable-header {
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+}
+.v-card-actions{
+    position: absolute;
+    bottom: 3%;
+    left: 3%;
 }
 </style>
