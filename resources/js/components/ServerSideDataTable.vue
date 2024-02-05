@@ -22,7 +22,9 @@
               ></v-divider>
               <v-dialog
                   v-model="dialog"
-                  max-width="500px"
+                  :width="this.width"
+                  :height="this.height"
+                  :class="{ minimizeClass: minimize, resizeClass:resize }"
               >
                   <template v-slot:activator="{ props }">
                       <v-row>
@@ -48,6 +50,25 @@
 
                   </template>
                   <v-card>
+                      <v-card-title>
+                          <v-icon color="red" @click="this.dialog = false" size="large">mdi-close</v-icon>
+                          <v-icon size="25" @click="resizeWindow">mdi-checkbox-blank-outline</v-icon>
+
+
+
+                          <v-icon size="25"
+                                  @click="minimizeWindow"
+                                  :class="{ maximizeClass: maximize }"
+                          >mdi-minus
+                          </v-icon>
+                          <v-icon
+                              @click="minimizeWindow"
+                              :class="{ minimizeClass: minimize }"
+                              style="display: none"
+                          >
+                              mdi-chevron-up
+                          </v-icon>
+                      </v-card-title>
                       <v-card-text>
                           <v-container>
                               <v-row>
@@ -137,6 +158,11 @@
 import axios from 'axios';
 export default {
   data: () => ({
+      width: 1024,
+      height: 800,
+      resize: false,
+      minimize : false,
+      maximize : false,
     itemsPerPage: 10,
     headers: [
       { title: 'شناسه', key: 'id', align: 'end' },
@@ -174,6 +200,28 @@ export default {
         },
     },
   methods: {
+      resizeWindow(){
+          switch (this.resize){
+              case false:
+                  this.resize = true;
+                  break;
+              case true:
+                  this.resize = false;
+                  break;
+          }
+      },
+      minimizeWindow(){
+          switch (this.minimize){
+              case false:
+                  this.minimize = true;
+                  this.maximize = true;
+                  break;
+              case true:
+                  this.minimize = false;
+                  this.maximize = false;
+                  break;
+          }
+      },
     loadItems ({ page = null, itemsPerPage = null }) {
       this.loading = true
       const start = (page - 1) * itemsPerPage
@@ -268,3 +316,18 @@ export default {
   },
 }
 </script>
+<style>
+.resizeClass .v-overlay__content,.resizeClass .v-overlay__content .v-card{
+    width: 100%!important;
+    height: 100%!important;
+}
+.minimizeClass{display: inline-block!important;}
+.maximizeClass{display: none!important;}
+.minimizeClass .v-overlay__content{
+    width: 300px!important;
+    height: 60px!important;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+</style>
